@@ -1,0 +1,12 @@
+Visit Page, if logged in goes to users page
+If not logged in, goes to login page
+
+When user logs in, it redirects to the specific users page
+The user is stored in cookies, retrieve the user from this when making a request
+
+On a users page ...
+
+Left side will display Checking Account, Balance of Checking
+Right side will display Trading Account, Balance of Trading
+- Underneath trading, there should be an option to make a trade
+- The amount should be less than 20% * (checkBal + tradeBal)

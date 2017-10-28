@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    {% if user %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="text-center">{{user.fullname}}</h1>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-xs-6 text-center">
+                <h3>Checking</h3>
+                <br>
+                <h4>Balance:</h4>
+                <p>${{user.checking.balance}}0</p>
+            </div>
+            <div class="col-xs-6 text-center">
+                <h3>Trading</h3>
+                <br>
+                <h4>Balance:</h4>
+                <p>${{user.trading.balance}}0</p>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-xs-12">
+                <a href="/trade">
+                    <button class="btn btn-default btn-block">Make A Trade</button>
+                </a>
+            </div>
+        </div>
+
+    {% end %}
+
+    {% if not user %}
+        <h1>Please <a href="/login">Login</a> To Continue.</h1>
+    {% end %}
+
+{% end %}

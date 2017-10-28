@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    {% if user %}
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <h1>{{user.fullname}}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 text-center">
+                <h4>Trading Balance:</h4>
+                <h3><b>${{user.trading.balance}}0</b></h3>
+                <hr>
+                <h4>Checking Balance:</h4>
+                <h3><b>${{user.checking.balance}}0</b></h3>
+            </div>
+            <div class="col-xs-6">
+                <h4>Make A Trade</h4>
+
+                <form method="post">
+                    <div class="form-group">
+                        <label class="sr-only" for="amount">Amount (in dollars)</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            <input type="number" value="0" min="0" name="amount" class="form-control" id="amount" placeholder="Amount">
+                            <div class="input-group-addon">.00</div>
+                        </div>
+
+                        <br>
+
+                        <label for="sender_account">From My</label>
+                        <select class="form-control" name="sender_account" id="sender_account">
+                            <option value="trading">Trading Account</option>
+                            <option value="checking">Checking Account</option>
+                        </select>
+
+                        <br>
+
+                        <label for="receiver_account">To Their</label>
+                        <select class="form-control" name="receiver_account" id="receiver_account">
+                            <option value="trading">Trading Account</option>
+                            <option value="checking">Checking Account</option>
+                        </select>
+
+                        <br>
+                        <label for="receiver">To User</label>
+                        <select class="form-control" name="receiver" id="receiver">
+                            {% for receiver in users %}
+                            <option value="{{receiver.fullname}}">{{receiver.fullname}}</option>
+                            {% end %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right">Transfer cash</button>
+                </form>
+            </div>
+        </div>
+    {% end %}
+    {% if feedback %}
+        <hr>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <h1>{{feedback['title']}}</h1>
+                <br>
+                <p class="text-muted">{{feedback['message']}}</p>
+                <h3>{{feedback['prompt']}}</h3>
+            </div>
+        </div>
+    {% end %}
+{% end %}
