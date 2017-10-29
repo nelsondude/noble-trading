@@ -17,27 +17,29 @@ class User(Base):
     trading = relationship("Trading", uselist=False, back_populates="user")
     checking = relationship("Checking", uselist=False, back_populates="user")
 
+    # received_trades = relationship('Trade', back_populates='user')
+    # sent_trades = relationship('Trade', back_populates='user')
+
+
     def __repr__(self):
         return "<User(name='%s', fullname='%s', password='%s')>" % (
             self.name, self.fullname, self.password)
 
 
-class Trading(Base):
-    __tablename__ = 'trading'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship("User", back_populates="trading")
-
-    balance = Column(Float(precision=3), default=10000.00)
-
 class Trade(Base):
     __tablename__ = 'trade'
     id = Column(Integer, primary_key=True)
-    sender = relationship("User", back_populates="trade")
-    receiver = relationship("User", back_populates="trade")
+
+    sender_id = Column(Integer, ForeignKey('user.id'))
+    sender = relationship("User", foreign_keys=[sender_id])
+    sender_account = Column(String)
+
+    receiver_id = Column(Integer, ForeignKey('user.id'))
+    receiver = relationship("User", foreign_keys=[receiver_id])
+    receiver_account = Column(String)
+
     amount = Column(Float(precision=3))
-    status = Column(String)  #pending, accepted, declined
+    status = Column(String, default="pending")  #pending, accepted, declined
 
 
 '''
@@ -55,6 +57,16 @@ Receiver trades:
 - If declined, display as a declined trade
 
 '''
+
+
+class Trading(Base):
+    __tablename__ = 'trading'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship("User", back_populates="trading")
+
+    balance = Column(Float(precision=3), default=10000.00)
 
 
 class Checking(Base):

@@ -4,7 +4,8 @@ from .handlers import (
     LoginHandler,
     HomeHandler,
     TradeHandler,
-    RegisterHandler
+    RegisterHandler,
+    CompleteTradeHandler
 )
 
 
@@ -27,6 +28,7 @@ class URLsRegistry(object):
 URLS = (
     url(r'/login', LoginHandler),
     url(r'/trade', TradeHandler),
+    url(r'/trade/complete', CompleteTradeHandler),
     url(r'/register', RegisterHandler),
     url(r'/', HomeHandler),
 )
