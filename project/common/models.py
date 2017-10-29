@@ -5,6 +5,9 @@ from sqlalchemy.orm import sessionmaker, relationship
 from uuid import UUID
 import datetime, json
 
+engine = create_engine('sqlite:///sqlite.db', echo=False)
+Base = declarative_base()
+
 
 class OutputMixin(object):
     RELATIONSHIPS_TO_DICT = False
@@ -42,10 +45,6 @@ class OutputMixin(object):
             rel = self.RELATIONSHIPS_TO_DICT
         return json.dumps(self.to_dict(rel), default=extended_encoder)
 
-
-
-engine = create_engine('sqlite:///sqlite.db', echo=False)
-Base = declarative_base()
 
 class User(OutputMixin, Base):
     __tablename__ = 'user'

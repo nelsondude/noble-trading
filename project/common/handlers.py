@@ -95,6 +95,7 @@ class TradeHandler(BaseHandler):
     def get(self, *args, **kwargs):
         sender = self.get_current_user_obj()
         if sender:
+            # Cant send to yourself
             receivers = session.query(User).filter(User.id != sender.id).all()
             self.render(
                 'trade.html',
@@ -108,6 +109,7 @@ class TradeHandler(BaseHandler):
 
 
     def post(self, *args, **kwargs):
+        # Sender/receiver accounts if user wants to trade between checking and trading
         amount = float(self.get_argument('amount'))
         sender = self.get_current_user_obj()
         sender_account = self.get_argument('sender_account')
