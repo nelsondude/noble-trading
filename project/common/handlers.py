@@ -67,13 +67,12 @@ class RegisterHandler(BaseHandler):
 class HomeHandler(BaseHandler):
     def get(self):
         user = native_str(self.get_secure_cookie("user"))
-        user_obj = None
         if user:
             user_qs = session.query(User).filter_by(fullname=user).all()
             if len(user_qs) == 1:
                 user_obj = user_qs[0]
-                sender_trades = session.query(Trade).filter_by(sender=user_obj)
-                receiver_trades = session.query(Trade).filter_by(receiver=user_obj)
+                sender_trades = session.query(Trade).filter_by(sender=user_obj).order_by(Trade.id.desc())
+                receiver_trades = session.query(Trade).filter_by(receiver=user_obj).order_by(Trade.id.desc())
                 self.render('home.html',
                             user=user_obj,
                             sender_trades=sender_trades,
@@ -90,7 +89,6 @@ class CompleteTradeHandler(BaseHandler):
             acceptTrade(tradeId)
         elif action == 'decline':
             declineTrade(tradeId)
-        self.redirect('/')
 
 
 class TradeHandler(BaseHandler):
@@ -107,6 +105,8 @@ class TradeHandler(BaseHandler):
         else:
             self.redirect('/login')
 
+
+
     def post(self, *args, **kwargs):
         amount = float(self.get_argument('amount'))
         sender = self.get_current_user_obj()
@@ -120,26 +120,30 @@ class TradeHandler(BaseHandler):
         sender_valid = isValidTrade(sender, amount)
         receiver_valid = isValidTrade(receiver, amount)
 
-        if (sender_valid and receiver_valid):
+        if (not sender_valid):
+            required = moneyNeededToPerformTrade(sender, amount)
+
+            feedback = {
+                'title': 'You do not have enough money to successfully request this trade.',
+                'message': 'The sum of your checking and trading accounts needs to be greater than 20% of the trade request',
+                'prompt': 'You need $%s0 more to complete the transaction.'%required
+            }
+        elif (not receiver_valid):
+            required = moneyNeededToPerformTrade(receiver, amount)
+            feedback = {
+                'title': 'The receiver of this trade does not have enough money to accept.',
+                'message': 'The sum of their checking and trading accounts needs to be greater than 20% of the trade request',
+                'prompt': 'They need $%s0 more to complete the transaction.'%required
+            }
+
+        elif (sender_valid and receiver_valid):
             initiateTrade(sender, sender_account, receiver, receiver_account, amount)
+            feedback = {
+                'title': 'You requested a trade!',
+                'message': "You requested to send $%s0 to %s's %s account."%(amount, receiver.fullname, receiver_account),
+                'prompt': 'Try and request another trade!'
+            }
 
-        feedback = {
-            'title': 'You made a successful trade!',
-            'message': "You traded $%s0 to %s's %s account."%(amount, receiver.fullname, receiver_account),
-            'prompt': 'Try and make another trade!'
-        }
-
-        # else:
-        #     required = moneyNeededToPerformTrade(
-        #         checkBal,
-        #         tradeBal,
-        #         amount
-        #     )
-        #     feedback = {
-        #         'title': 'Your trade request was not successfully processed.',
-        #         'message': 'The sum of your checking and trading accounts needs to be greater than 20% of the trade request',
-        #         'prompt': 'You need $%s0 more to complete the transaction.'%required
-        #     }
         receivers = session.query(User).filter(User.id != sender.id).all()
         self.render(
             'trade.html',

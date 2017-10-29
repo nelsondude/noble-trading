@@ -1,0 +1,26 @@
+body {
+  background-color: #0e2e46 !important;
+  color: white;
+  font-weight: 300; }
+
+a:hover {
+  cursor: pointer; }
+
+.navbar {
+  background-color: #49ace2;
+  border: 0 solid transparent;
+  border-bottom: 1px solid #79c8ab;
+  border-radius: 0; }
+  .navbar a {
+    color: white !important; }
+
+hr {
+  border-top: 1px solid #79c8ab; }
+
+.btn {
+  transition: all .2s; }
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form, .navbar-inverse .navbar-toggle {
+  border-color: transparent; }
+
+/*# sourceMappingURL=styles.css.map */

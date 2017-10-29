@@ -1,0 +1,38 @@
+
+$nobleGreen: rgb(121, 200, 171);
+$nobleBlue: rgb(73,172,226);
+$nobleNavy: rgb(14, 46, 70);
+
+body {
+    background-color: $nobleNavy !important;
+    color: white;
+    font-weight: 300;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+.navbar {
+    background-color: $nobleBlue;
+    border: 0 solid transparent;
+    border-bottom: 1px solid $nobleGreen;
+    border-radius: 0;
+    a {
+        color: white !important;
+    }
+}
+
+hr {
+    border-top: 1px solid $nobleGreen;
+}
+
+.btn {
+    transition: all .2s;
+}
+
+.navbar-inverse {
+    .navbar-collapse, .navbar-form, .navbar-toggle {
+        border-color: transparent;
+    }
+}

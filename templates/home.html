@@ -36,13 +36,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <table class="table">
                     <caption>Trades I Sent</caption>
                     <thead>
                         <tr>
-                            <th>#</th>
-
                             <th>Receiver</th>
                             <th>Amount</th>
                             <th>Status</th>
@@ -51,8 +49,7 @@
                     <tbody>
                     {% for trade in sender_trades %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>{{trade.receiver.fullname}}</td>
+                            <th scope="row">{{trade.receiver.fullname}}</th>
                             <td>${{trade.amount}}0</td>
                             <td class="trade-status">{{trade.status}}</td>
                         </tr>
@@ -62,13 +59,11 @@
                 </table>
 
             </div>
-            <div class="col-xs-6">
+            <div class="col-sm-6">
                 <table class="table">
                     <caption>Trades I Received</caption>
                     <thead>
                         <tr>
-                            <th>#</th>
-
                             <th>Sender</th>
                             <th>Amount</th>
                             <th>Status</th>
@@ -77,8 +72,7 @@
                     <tbody>
                     {% for trade in receiver_trades %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>{{trade.sender.fullname}}</td>
+                            <th scope="row">{{trade.sender.fullname}}</th>
                             <td>${{trade.amount}}0</td>
                             <td class="trade-status">
                                 {% if trade.status == 'pending' %}

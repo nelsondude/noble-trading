@@ -9,8 +9,8 @@ def isValidTrade(user, trade):
     trade_percent = .2
     return (user.trading.balance + user.checking.balance) > (trade_percent * trade)
 
-def moneyNeededToPerformTrade(checkBal, tradeBal, trade):
-    account_sum = checkBal + tradeBal
+def moneyNeededToPerformTrade(user, trade):
+    account_sum = user.checking.balance + user.trading.balance
     trade_percent = .2
     required = trade_percent * trade
     return required - account_sum

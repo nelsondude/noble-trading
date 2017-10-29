@@ -8,6 +8,10 @@ from .handlers import (
     CompleteTradeHandler
 )
 
+from .api.handlers import (
+    TradesAPIHandler,
+    UsersAPIHandler
+)
 
 __all__ = ('URLsRegistry',)
 
@@ -33,5 +37,12 @@ URLS = (
     url(r'/', HomeHandler),
 )
 
+API_URLS = (
+    url(r'/api/trades', TradesAPIHandler),
+    url(r'/api/users', UsersAPIHandler)
+)
+
 
 URLsRegistry.register(urls=URLS)
+
+URLsRegistry.register(urls=API_URLS)
