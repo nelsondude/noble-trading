@@ -32,4 +32,4 @@ This project allows users to create accounts, and trade money between friends. U
 
 1. Make sure you have docker installed
 
-2. docker run -p 4000:80 alexn1336/noble-trading
+2. `docker run -p 4000:80 alexn1336/noble-trading`
